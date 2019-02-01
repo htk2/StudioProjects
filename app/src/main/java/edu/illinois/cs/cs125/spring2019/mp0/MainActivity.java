@@ -278,6 +278,8 @@ public final class MainActivity extends FragmentActivity implements OnMapReadyCa
         setContentView(R.layout.activity_main);
 
         handler = new Handler();
+        (findViewById(R.id.center)).setOnClickListener((v) ->
+            centerMap());
 
         /*
          * Determine if we've been granted fine-grained location permissions. If not, trigger the permissions dialog
