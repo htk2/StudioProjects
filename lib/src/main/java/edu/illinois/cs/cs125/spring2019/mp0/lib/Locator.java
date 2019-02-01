@@ -20,6 +20,7 @@ public class Locator {
     /** Maximum valid longitude. */
     public static final double MAX_LONGITUDE = 180.0;
 
+    /** Minimum valid longitude. */
     public static final double MIN_LONGITUDE = -180.0;
 
     /** Random number generator for use by this class. */
@@ -47,7 +48,15 @@ public class Locator {
      */
     public static int farthestNorth(final double[] latitudes, final double[] longitudes,
                                     final boolean[] validLocations) {
-        return 0;
+        double latitude = MIN_LATITUDE;
+        int latitudeIndex = -1;
+        for (int i = 0; i < latitudes.length; i++) {
+            if (latitudes[i] > latitude && validLocations[i]) {
+                latitude = latitudes[i];
+                latitudeIndex = i;
+            }
+        }
+        return latitudeIndex;
     }
 
     /**
@@ -66,6 +75,21 @@ public class Locator {
     public static boolean beenHere(final int currentIndex,
                             final double[] latitudes, final double[] longitudes,
                             final boolean[] validLocations) {
+        for (int i = 0; i < latitudes.length; i++) {
+            if (i == currentIndex) {
+                continue;
+            }
+            if (latitudes[currentIndex] == latitudes[i] && validLocations[i]) {
+                for (int j = 0; j < longitudes.length; j++) {
+                    if (j == currentIndex) {
+                        continue;
+                    }
+                    if (longitudes[currentIndex] == longitudes[j] && validLocations[j] && i == j) {
+                        return true;
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -95,6 +119,24 @@ public class Locator {
     public static double[] nextRandomLocation(final double currentLatitude, final double currentLongitude,
                                        final double transitionProbability,
                                        final double latitudeChange, final double longitudeChange) {
-        return new double[] {0.0, 0.0};
+        double newLatitude = currentLatitude;
+        double newLongitude = currentLongitude;
+        if (Math.random() * 1 <= transitionProbability) {
+            newLatitude = (currentLatitude + latitudeChange);
+            newLongitude = (currentLongitude + longitudeChange);
+            if (newLatitude > MAX_LATITUDE) {
+                newLatitude = MAX_LATITUDE;
+            }
+            if (newLongitude > MAX_LONGITUDE) {
+                newLongitude = MAX_LONGITUDE;
+            }
+            if (newLatitude < MIN_LATITUDE) {
+                newLatitude = MIN_LATITUDE;
+            }
+            if (newLongitude < MIN_LONGITUDE) {
+                newLongitude = MIN_LONGITUDE;
+            }
+        }
+        return new double[] {newLatitude, newLongitude};
     }
 }
