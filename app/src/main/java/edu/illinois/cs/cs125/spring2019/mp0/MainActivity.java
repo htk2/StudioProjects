@@ -248,7 +248,6 @@ public final class MainActivity extends FragmentActivity implements OnMapReadyCa
 
     /** Whether or not the map is currently centered. */
     public boolean centered = false;
-
     /**
      * Run when the activity is created.
      * <p>

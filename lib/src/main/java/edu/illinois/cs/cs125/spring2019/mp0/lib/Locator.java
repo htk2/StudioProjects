@@ -46,7 +46,6 @@ public class Locator {
      * @param validLocations the array containing whether the location at an index is valid or not
      * @return the index in the array containing the position that is furthest north.
      */
-
     public static int farthestNorth(final double[] latitudes, final double[] longitudes,
                                     final boolean[] validLocations) {
         double latitude = MIN_LATITUDE;
